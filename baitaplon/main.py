@@ -38,8 +38,8 @@ while run:
 	draw_bg()
 
 	#move fighters (goi thang nay ra de di chuyen)
-	fighter_1.move()
-	fighter_2.move()
+	fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT)
+	#fighter_2.move()
 
 	#draw fighters (ve 2 thang o day)
 	fighter_1.draw(screen)
