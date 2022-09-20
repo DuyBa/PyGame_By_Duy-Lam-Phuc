@@ -12,9 +12,13 @@ class Fighter():
 		self.vel_y= 0
 		#thang nay giup kiem soat chi nhay 1 lan, ko bi cong don nhay vi vong lap
 		self.jump= False
+		self.attack_type= 0
+		self.attacking= False
+		self.health= 100
+		self.flip= False
 
 	#tao ra ham di chuyen cho nhan vat
-	def move(self, screen_width, screen_height):
+	def move(self, screen_width, screen_height, surface, target):
 		SPEED= 10
 		GRAVITY= 2
 		dx= 0
@@ -23,16 +27,26 @@ class Fighter():
 		#get keypresses (lay nhap tu ban phim, vi du nhu w, a, s, d)
 		key= pygame.key.get_pressed()
 
+		#can only perform other actions if not currently attacking( chi di chuyen sang len xuong khi ma ko thuc hieen tan cong, mac du cai nay ko dung voi game ngoai doi :v)
+		if self.attacking== False:
 
-		#movement (thang nay se dinh huong di chuyen)
-		if key[pygame.K_a]:
-			dx= - SPEED 
-		if key[pygame.K_d]:
-			dx= SPEED
-		#jump (nhay, nut w)
-		if key[pygame.K_w] and self.jump== False:
-			self.vel_y= -30
-			self.jump= True
+			#movement (thang nay se dinh huong di chuyen)
+			if key[pygame.K_a]:
+				dx= - SPEED 
+			if key[pygame.K_d]:
+				dx= SPEED
+			#jump (nhay, nut w)
+			if key[pygame.K_w] and self.jump== False:
+				self.vel_y= -30
+				self.jump= True
+			#attack
+			if key[pygame.K_j] or key[pygame.K_k]:
+				self.attack(surface, target)
+				#determine which kind of attack
+				if key[pygame.K_j]:
+					self.attack_type= 1
+				if key[pygame.K_k]:
+					self.attack_type= 2
 
 		#apply gravity (them trong luc vao cho nhan vat, ban chat la neu chi co cai dong + them chieu y cho nhan vat, theo vong lap no se len mai neu ko dc dung, them dong trong luc vao thi no vua len vua xuong, tieo theo se xu li tiep)
 		self.vel_y+= GRAVITY #thang di xuong nay thi always
@@ -48,10 +62,24 @@ class Fighter():
 			dy= screen_height- 80- self.rect.bottom
 			self.jump= False
 
+		#ensure players face each other
+		if target.rect.centerx> self.rect.centerx:
+			self.flip= False
+		else: self.flip= True
+
 
 		#update position (cap nhat vi tri cua nhan vat)
 		self.rect.x+= dx
 		self.rect.y+= dy
+
+	def attack(self, surface, target):
+		self.attacking= True
+		attacking_rect= pygame.Rect(self.rect.centerx- (2* self.rect.width* self.flip), self.rect.y, self.rect.width* 2, self.rect.height)
+		if attacking_rect.colliderect(target.rect):
+			target.health-= 10
+
+
+		pygame.draw.rect(surface, (0, 255, 0), attacking_rect)
 
 	#day la ham ve ra hinh chu nhat
 	def draw(self, surface):
