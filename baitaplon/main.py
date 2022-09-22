@@ -19,14 +19,29 @@ RED= (255, 0, 0)
 YELLOW= (255, 255, 0) 
 WHITE= (255, 255, 255)
 
+#define fighter variables
+WARRIOR_SIZE= 162
+WIZARD_SIZE= 250
+
+WARRIOR_SCALE= 4
+WIZARD_SCALE= 3
+
+WARRIOR_OFFSET= [72, 56]
+WIZARD_OFFSET= [112, 107]
+
+WARRIOR_DATA= [WARRIOR_SIZE, WARRIOR_SCALE, WARRIOR_OFFSET]
+WIZARD_DATA= [WIZARD_SIZE, WIZARD_SCALE, WIZARD_OFFSET]
+
 #load background image (chay phong nen)
 bg_image= pygame.image.load("assets/Flat Night 2 BG/Flat Night 2 BG.png").convert_alpha()
 
 #load spritesheets
-warrior_sheet= pygame.image.load("assets/Warrior-V1.3/Warrior/SpriteSheet/Warrior_Sheet-Effect.png").convert_alpha()
+warrior_sheet= pygame.image.load("assets/muontam/images/warrior/Sprites/warrior.png").convert_alpha()
+wizard_sheet= pygame.image.load("assets/muontam/images/wizard/Sprites/wizard.png").convert_alpha()
 
 #define number of steps in each animations
-WARRIOR_ANIMATION_STEPS= []
+WARRIOR_ANIMATION_STEPS= [10, 8, 1, 7 ,7, 3, 7];
+WIZARD_ANIMATION_STEPS= [8, 8, 1, 8, 8, 3, 7]
 
 #function for drawing background (thang bg_img chi la 1 bien khoi tao, chung ta phai tao ham de goi no, xong no se luu vao bo nho memory va ta se cho chay trong vong lap)
 def draw_bg():
@@ -42,8 +57,8 @@ def draw_health_bar(health, x, y):
 
 
 #create 2 instance of fighters (chac chan se co 2 thang tren man hinh, nen ta tao 2 tk)
-fighter_1 = Fighter(200, 340)
-fighter_2 = Fighter(700, 340)
+fighter_1 = Fighter(200, 340, False, WARRIOR_DATA,warrior_sheet, WARRIOR_ANIMATION_STEPS)
+fighter_2 = Fighter(700, 340, True, WIZARD_DATA,wizard_sheet, WIZARD_ANIMATION_STEPS)
 
 
 #game loop (tao vong lap cho game, tat ca moi thu se dien ra tai day)
@@ -62,7 +77,11 @@ while run:
 
 	#move fighters (goi thang nay ra de di chuyen)
 	fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_2)
-	#fighter_2.move()
+	#fighter_2.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_1)
+
+	#update fighters
+	fighter_1.update()
+	fighter_2.update()
 
 	#draw fighters (ve 2 thang o day)
 	fighter_1.draw(screen)
