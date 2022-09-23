@@ -19,6 +19,10 @@ RED= (255, 0, 0)
 YELLOW= (255, 255, 0) 
 WHITE= (255, 255, 255)
 
+#define game variables
+intro_count= 3
+last_count_update= pygame.time.get_ticks()
+
 #define fighter variables
 WARRIOR_SIZE= 162
 WIZARD_SIZE= 250
@@ -40,8 +44,17 @@ warrior_sheet= pygame.image.load("assets/muontam/images/warrior/Sprites/warrior.
 wizard_sheet= pygame.image.load("assets/muontam/images/wizard/Sprites/wizard.png").convert_alpha()
 
 #define number of steps in each animations
-WARRIOR_ANIMATION_STEPS= [10, 8, 1, 7 ,7, 3, 7];
+WARRIOR_ANIMATION_STEPS= [10, 8, 1, 7 ,7, 3, 7]
 WIZARD_ANIMATION_STEPS= [8, 8, 1, 8, 8, 3, 7]
+
+#define font
+cont_font= pygame.font.Font("assets/muontam/fonts/turok.ttf", 80)
+
+#funtion for drawing tect
+def draw_text(text, font, text_col, x, y):
+	img= font.render(text, True, text_col)
+	screen.blit(img, (x, y))
+
 
 #function for drawing background (thang bg_img chi la 1 bien khoi tao, chung ta phai tao ham de goi no, xong no se luu vao bo nho memory va ta se cho chay trong vong lap)
 def draw_bg():
@@ -57,8 +70,8 @@ def draw_health_bar(health, x, y):
 
 
 #create 2 instance of fighters (chac chan se co 2 thang tren man hinh, nen ta tao 2 tk)
-fighter_1 = Fighter(200, 340, False, WARRIOR_DATA,warrior_sheet, WARRIOR_ANIMATION_STEPS)
-fighter_2 = Fighter(700, 340, True, WIZARD_DATA,wizard_sheet, WIZARD_ANIMATION_STEPS)
+fighter_1 = Fighter(1, 200, 340, False, WARRIOR_DATA,warrior_sheet, WARRIOR_ANIMATION_STEPS)
+fighter_2 = Fighter(2, 700, 340, True, WIZARD_DATA,wizard_sheet, WIZARD_ANIMATION_STEPS)
 
 
 #game loop (tao vong lap cho game, tat ca moi thu se dien ra tai day)
@@ -75,9 +88,21 @@ while run:
 	draw_health_bar(fighter_2.health, 580, 20)
 
 
-	#move fighters (goi thang nay ra de di chuyen)
-	fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_2)
-	#fighter_2.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_1)
+	#update countdown
+	if intro_count<= 0:
+		#move fighters (goi thang nay ra de di chuyen)
+		fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_2)
+		fighter_2.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_1)
+	else:
+		#display count timer
+		draw_text(str(intro_count), cont_font, RED, SCREEN_WIDTH/ 2- 30, SCREEN_HEIGHT/ 2)
+		#update count timer
+		if(pygame.time.get_ticks()- last_count_update) >= 1000:
+			intro_count-= 1
+			last_count_update= pygame.time.get_ticks()
+			#print(intro_count)
+
+
 
 	#update fighters
 	fighter_1.update()

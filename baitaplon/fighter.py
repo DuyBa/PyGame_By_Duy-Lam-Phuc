@@ -1,7 +1,8 @@
 import pygame
 
 class Fighter():
-	def __init__(self, x, y, flip, data, sprite_sheet, animation_steps):
+	def __init__(self, player, x, y, flip, data, sprite_sheet, animation_steps):
+		self.player= player
 		self.size= data[0]
 		self.image_scale= data[1]
 		self.offset= data[2]
@@ -56,27 +57,53 @@ class Fighter():
 		key= pygame.key.get_pressed()
 
 		#can only perform other actions if not currently attacking( chi di chuyen sang len xuong khi ma ko thuc hieen tan cong, mac du cai nay ko dung voi game ngoai doi :v)
-		if self.attacking== False:
+		if self.attacking== False and self.alive== True:
 
-			#movement (thang nay se dinh huong di chuyen)
-			if key[pygame.K_a]:
-				dx= - SPEED 
-				self.running= True
-			if key[pygame.K_d]:
-				dx= SPEED
-				self.running= True
-			#jump (nhay, nut w)
-			if key[pygame.K_w] and self.jump== False:
-				self.vel_y= -30
-				self.jump= True
-			#attack
-			if key[pygame.K_j] or key[pygame.K_k]:
-				self.attack(surface, target)
-				#determine which kind of attack
-				if key[pygame.K_j]:
-					self.attack_type= 1
-				if key[pygame.K_k]:
-					self.attack_type= 2
+			#check player 1 control:
+			if self.player== 1:
+
+				#movement (thang nay se dinh huong di chuyen)
+				if key[pygame.K_a]:
+					dx= - SPEED 
+					self.running= True
+				if key[pygame.K_d]:
+					dx= SPEED
+					self.running= True
+				#jump (nhay, nut w)
+				if key[pygame.K_w] and self.jump== False:
+					self.vel_y= -30
+					self.jump= True
+				#attack
+				if key[pygame.K_j] or key[pygame.K_k]:
+					self.attack(surface, target)
+					#determine which kind of attack
+					if key[pygame.K_j]:
+						self.attack_type= 1
+					if key[pygame.K_k]:
+						self.attack_type= 2
+
+			#check player 2 control:
+			if self.player== 2:
+
+				#movement (thang nay se dinh huong di chuyen)
+				if key[pygame.K_LEFT]:
+					dx= - SPEED 
+					self.running= True
+				if key[pygame.K_RIGHT]:
+					dx= SPEED
+					self.running= True
+				#jump (nhay, nut w)
+				if key[pygame.K_UP] and self.jump== False:
+					self.vel_y= -30
+					self.jump= True
+				#attack
+				if key[pygame.K_KP1] or key[pygame.K_KP2]:
+					self.attack(surface, target)
+					#determine which kind of attack
+					if key[pygame.K_KP1]:
+						self.attack_type= 1
+					if key[pygame.K_KP2]:
+						self.attack_type= 2
 
 		#apply gravity (them trong luc vao cho nhan vat, ban chat la neu chi co cai dong + them chieu y cho nhan vat, theo vong lap no se len mai neu ko dc dung, them dong trong luc vao thi no vua len vua xuong, tieo theo se xu li tiep)
 		self.vel_y+= GRAVITY #thang di xuong nay thi always
