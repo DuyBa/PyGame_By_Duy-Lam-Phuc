@@ -28,21 +28,28 @@ round_over= False
 ROUND_OVER_COOLDOWN= 2000
 
 #define fighter variables
-WARRIOR_SIZE= 162
-WIZARD_SIZE= 250
+# WARRIOR_SIZE= [162, 162] #old
+# WIZARD_SIZE= [250, 250]  #old
 
-WARRIOR_SCALE= 4
-WIZARD_SCALE= 3
+WARRIOR_SIZE= [64, 44]  #new
+WIZARD_SIZE= [231, 190]	  #new
 
-WARRIOR_OFFSET= [72, 56]
-WIZARD_OFFSET= [112, 107]
+# WARRIOR_SCALE= 4
+# WIZARD_SCALE= 3
+WARRIOR_SCALE= 4.9
+WIZARD_SCALE= 2.3
+
+# WARRIOR_OFFSET= [72, 56]
+# WIZARD_OFFSET= [112, 107]
+WARRIOR_OFFSET= [15, 7]
+WIZARD_OFFSET= [112, 63]
 
 WARRIOR_DATA= [WARRIOR_SIZE, WARRIOR_SCALE, WARRIOR_OFFSET]
 WIZARD_DATA= [WIZARD_SIZE, WIZARD_SCALE, WIZARD_OFFSET]
 
 #load music and sound
 pygame.mixer.music.load("assets/audio/lop13.mp3")
-pygame.mixer.music.set_volume(20)
+pygame.mixer.music.set_volume(0) #20
 pygame.mixer.music.play(-1, 0.0, 5000)
 sword_fx= pygame.mixer.Sound("assets/muontam/audio/sword.wav")
 sword_fx.set_volume(0.5)
@@ -52,18 +59,23 @@ magic_fx.set_volume(0.75)
 
 
 #load background image (chay phong nen)
-bg_image= pygame.image.load("assets/Flat Night 2 BG/Flat Night 2 BG.png").convert_alpha()
+#bg_image= pygame.image.load("assets/Flat Night 2 BG/Flat Night 2 BG.png").convert_alpha() old
+bg_image= pygame.image.load("assets/Background/Demo.png").convert_alpha()
 
 #load spritesheets
-warrior_sheet= pygame.image.load("assets/muontam/images/warrior/Sprites/warrior.png").convert_alpha()
-wizard_sheet= pygame.image.load("assets/muontam/images/wizard/Sprites/wizard.png").convert_alpha()
+# warrior_sheet= pygame.image.load("assets/muontam/images/warrior/Sprites/warrior.png").convert_alpha() old
+# wizard_sheet= pygame.image.load("assets/muontam/images/wizard/Sprites/wizard.png").convert_alpha() old
+warrior_sheet= pygame.image.load("assets/Warrior-V1.3/aaa.png").convert_alpha() 
+wizard_sheet= pygame.image.load("assets/Wizard Pack/aa.png").convert_alpha() 
 
 #load victory image
 victory_img= pygame.image.load("assets/muontam/images/icons/victory.png").convert_alpha()
 
 #define number of steps in each animations
-WARRIOR_ANIMATION_STEPS= [10, 8, 1, 7 ,7, 3, 7]
-WIZARD_ANIMATION_STEPS= [8, 8, 1, 8, 8, 3, 7]
+# WARRIOR_ANIMATION_STEPS= [10, 8, 1, 7 ,7, 3, 7] old
+# WIZARD_ANIMATION_STEPS= [8, 8, 1, 8, 8, 3, 7]	old
+WARRIOR_ANIMATION_STEPS= [6, 8, 3, 12 ,10, 4, 10]
+WIZARD_ANIMATION_STEPS= [6, 8, 2, 8, 8, 4, 7]	
 
 #define font
 count_font= pygame.font.Font("assets/muontam/fonts/turok.ttf", 80)

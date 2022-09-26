@@ -3,7 +3,9 @@ import pygame
 class Fighter():
 	def __init__(self, player, x, y, flip, data, sprite_sheet, animation_steps, sound):
 		self.player= player
-		self.size= data[0]
+		#self.size= data[0]
+		self.sizex= data[0][0]
+		self.sizey= data[0][1]
 		self.image_scale= data[1]
 		self.offset= data[2]
 		self.flip= flip
@@ -40,8 +42,9 @@ class Fighter():
 		for y, animation in enumerate(animation_steps):
 			temp_img_list= []
 			for x in range(animation):
-				temp_img= sprite_sheet.subsurface(x* self.size, y* self.size, self.size, self.size)
-				temp_img_list.append(pygame.transform.scale(temp_img, (self.size* self.image_scale, self.size* self.image_scale)))	
+				#temp_img= sprite_sheet.subsurface(x* self.size, y* self.size, self.size, self.size)
+				temp_img= sprite_sheet.subsurface(x* self.sizex, y* self.sizey, self.sizex, self.sizey)
+				temp_img_list.append(pygame.transform.scale(temp_img, (self.sizex* self.image_scale, self.sizey* self.image_scale)))	
 			animation_list.append(temp_img_list)
 		return animation_list			
 
